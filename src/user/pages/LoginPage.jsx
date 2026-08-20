@@ -3,7 +3,7 @@ import logo from '../../assets/logo.png'
 import SupportButton from '../components/SupportButton'
 import SupportModal from '../components/SupportModal'
 import CreateMpinModal from '../components/CreateMpinModal'
-import { authErrorMessage, loginAdmin, loginUser } from '../../api/auth'
+import { authErrorMessage, loginUser } from '../../api/auth'
 import { listenContent } from '../../api/api'
 
 function SearchIcon() {
@@ -23,34 +23,19 @@ function openLink(url) {
 export default function LoginPage() {
   const [supportOpen, setSupportOpen] = useState(false)
   const [createMpinOpen, setCreateMpinOpen] = useState(false)
-  const [mode, setMode] = useState('user')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [content, setContent] = useState({})
 
   useEffect(() => listenContent(setContent), [])
 
-  async function handleUserLogin(event) {
+  async function handleLogin(event) {
     event.preventDefault()
     const form = new FormData(event.target)
     setError('')
     setBusy(true)
     try {
       await loginUser(form.get('mobile'), form.get('mpin'))
-    } catch (err) {
-      setError(authErrorMessage(err))
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function handleAdminLogin(event) {
-    event.preventDefault()
-    const form = new FormData(event.target)
-    setError('')
-    setBusy(true)
-    try {
-      await loginAdmin(form.get('mobile'), form.get('password'))
     } catch (err) {
       setError(authErrorMessage(err))
     } finally {
@@ -67,74 +52,41 @@ export default function LoginPage() {
       </div>
 
       <div className="login-wrap">
-        {mode === 'user' ? (
-          <form className="login-card" onSubmit={handleUserLogin}>
-            <img className="login-logo" src={logo} alt="RPK 90" />
+        <form className="login-card" onSubmit={handleLogin}>
+          <img className="login-logo" src={logo} alt="RPK 90" />
 
-            <label className="login-label" htmlFor="mobile">
-              Mobile Number
-            </label>
-            <div className="login-field">
-              <SearchIcon />
-              <input id="mobile" name="mobile" type="tel" placeholder="Mobile Number" required />
-            </div>
+          <label className="login-label" htmlFor="mobile">
+            Mobile Number
+          </label>
+          <div className="login-field">
+            <SearchIcon />
+            <input id="mobile" name="mobile" type="tel" placeholder="Mobile Number" required />
+          </div>
 
-            <label className="login-label" htmlFor="mpin">
-              MPIN <span className="login-ex">(ex.A12345)</span>
-            </label>
-            <div className="login-field boxed">
-              <SearchIcon />
-              <input id="mpin" name="mpin" type="password" placeholder="MPIN" required minLength={6} />
-            </div>
+          <label className="login-label" htmlFor="mpin">
+            MPIN <span className="login-ex">(ex.A12345)</span>
+          </label>
+          <div className="login-field boxed">
+            <SearchIcon />
+            <input id="mpin" name="mpin" type="password" placeholder="MPIN" required minLength={6} />
+          </div>
 
-            <button type="button" className="login-create" onClick={() => setCreateMpinOpen(true)}>
-              Create New MPIN
-            </button>
+          <button type="button" className="login-create" onClick={() => setCreateMpinOpen(true)}>
+            Create New MPIN
+          </button>
 
-            {error && <p className="login-error">{error}</p>}
+          {error && <p className="login-error">{error}</p>}
 
-            <button type="submit" className="login-btn" disabled={busy}>
-              {busy ? 'Please wait...' : 'Login'}
-            </button>
-            <button type="button" className="install-btn" onClick={() => openLink(content.apkUrl)}>
-              Install Application 1
-            </button>
-            <button type="button" className="install-btn" onClick={() => openLink(content.apkUrl2 || content.apkUrl)}>
-              Install Application 2
-            </button>
-            <button type="button" className="login-admin-link" onClick={() => { setMode('admin'); setError('') }}>
-              Admin Login
-            </button>
-          </form>
-        ) : (
-          <form className="login-card" onSubmit={handleAdminLogin}>
-            <img className="login-logo" src={logo} alt="RPK 90" />
-            <p className="login-admin-title">Admin Login</p>
-
-            <label className="login-label" htmlFor="admin-mobile">
-              Mobile Number
-            </label>
-            <div className="login-field boxed plain">
-              <input id="admin-mobile" name="mobile" type="tel" placeholder="Mobile Number" required />
-            </div>
-
-            <label className="login-label" htmlFor="password">
-              Password
-            </label>
-            <div className="login-field boxed plain">
-              <input id="password" name="password" type="password" placeholder="Password" required minLength={6} />
-            </div>
-
-            {error && <p className="login-error">{error}</p>}
-
-            <button type="submit" className="login-btn" disabled={busy}>
-              {busy ? 'Please wait...' : 'Admin Login'}
-            </button>
-            <button type="button" className="login-admin-link" onClick={() => { setMode('user'); setError('') }}>
-              Back to user login
-            </button>
-          </form>
-        )}
+          <button type="submit" className="login-btn" disabled={busy}>
+            {busy ? 'Please wait...' : 'Login'}
+          </button>
+          <button type="button" className="install-btn" onClick={() => openLink(content.apkUrl)}>
+            Install Application 1
+          </button>
+          <button type="button" className="install-btn" onClick={() => openLink(content.apkUrl2 || content.apkUrl)}>
+            Install Application 2
+          </button>
+        </form>
       </div>
 
       <SupportButton onClick={() => setSupportOpen(true)} />

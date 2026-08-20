@@ -27,11 +27,8 @@ export async function loginUser(mobile, mpin) {
   }))
 }
 
-export async function loginAdmin(mobile, password) {
-  return saveSession(await apiRequest('/api/auth/admin-login', {
-    method: 'POST',
-    body: JSON.stringify({ mobile, password }),
-  }))
+export async function loginAdmin(mobile, mpin) {
+  return loginUser(mobile, mpin)
 }
 
 export async function logout() {
