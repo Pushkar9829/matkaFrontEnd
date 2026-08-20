@@ -1,0 +1,17 @@
+export const playMarkets = [
+  { name: 'MORNING STAR', status: 'timeout', lastTime: '11:15:00 AM' },
+  { name: 'SILVER CITY', status: 'open', lastTime: '11:35:00 AM' },
+  { name: 'LONDON BAZAR', status: 'open', lastTime: '1:50:00 PM' },
+  { name: 'DELHI BAZAAR', status: 'open', lastTime: '3:00:00 PM' },
+  { name: 'DEV DARSHAN', status: 'open', lastTime: '4:20:00 PM' },
+  { name: 'SHRI GANESH', status: 'open', lastTime: '4:30:00 PM' },
+  { name: 'HR // 20', status: 'open', lastTime: '5:00:00 PM' },
+  { name: 'FARIDABAAD', status: 'open', lastTime: '6:00:00 PM' },
+  { name: 'INDIA', status: 'open', lastTime: '6:30:00 PM' },
+  { name: 'GAZIABAAD', status: 'open', lastTime: '8:00:00 PM' },
+  { name: 'NEPAL', status: 'open', lastTime: '9:00:00 PM' },
+  { name: 'GALI', status: 'open', lastTime: '11:20:00 PM' },
+  { name: 'SHIV', status: 'open', lastTime: '11:40:00 PM' },
+  { name: 'MAFIYA', status: 'open', lastTime: '11:50:00 PM' },
+  { name: 'DISAWAR', status: 'open', lastTime: '4:50:00 AM' },
+]
