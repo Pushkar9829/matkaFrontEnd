@@ -735,7 +735,7 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 12px 10px 10px;
 }
 
@@ -747,14 +747,22 @@ button {
   gap: 8px;
 }
 
+.home-toolbar-chats {
+  align-items: flex-start;
+}
+
+.home-toolbar-actions {
+  align-items: flex-end;
+}
+
 .home-toolbar-logo {
   display: flex;
   justify-content: center;
 }
 
 .home-toolbar-logo img {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
 }
@@ -763,14 +771,14 @@ button {
   position: relative;
   display: flex;
   width: 100%;
-  max-width: 100%;
+  max-width: 168px;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  overflow: hidden;
+  overflow: visible;
   border: 0;
   border-radius: 999px;
-  padding: 8px 8px;
+  padding: 7px 12px;
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
@@ -2142,7 +2150,7 @@ button {
   font-size: 18px;
   font-weight: 600;
   line-height: 1.5;
-  color: #2a1a08;
+  color: #fff;
 }
 
 .help-promo-actions {
@@ -2202,29 +2210,33 @@ button {
   }
 
   .home-toolbar {
-    gap: 12px;
-    padding: 16px 16px 0;
+    gap: 16px;
+    padding: 12px 20px 10px;
+    max-width: 760px;
+    margin: 0 auto;
   }
 
   .home-toolbar-logo img {
-    width: 80px;
-    height: 80px;
+    width: 62px;
+    height: 62px;
   }
 
   .home-toolbar-btn {
-    gap: 8px;
-    padding: 10px 16px;
-    font-size: 15px;
+    width: 158px;
+    max-width: 158px;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
   }
 
   .home-toolbar-btn i {
-    font-size: 22px;
+    font-size: 16px;
   }
 
   .home-toolbar-new {
-    top: -8px;
-    right: 24px;
-    font-size: 10px;
+    top: -7px;
+    right: 10px;
+    font-size: 9px;
   }
 
   .home-flash {
