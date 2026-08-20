@@ -3,6 +3,8 @@ import logo from '../../assets/logo.png'
 import { listenContent } from '../../api/api'
 
 const HINDI_TEXT =
+  'अगर आपको पैसा एड करने में, पैसा निकालने में और गेम खेलने में कोई समस्या होती है तो आप HELP में जाके वीडियो देख सकते हो और हमसे बात भी कर सकते हो'
+const OLD_HINDI_TEXT =
   'अगर आपको पैसा एड करने मैं, पैसा निकालने मैं और गेम खेलने मैं कोई समस्या होती है तो आप HELP मैं जाके वीडियो देख सकते हो और हमसे बात भी कर सकते हो'
 
 export default function HelpPromoModal({ onChat, onHelp, initialDelayMs = 2000, intervalMs = 45000 }) {
@@ -11,7 +13,8 @@ export default function HelpPromoModal({ onChat, onHelp, initialDelayMs = 2000, 
   const shownOnce = useRef(false)
 
   useEffect(() => listenContent((content) => {
-    if (content.helpPromo) setPromo(content.helpPromo)
+    if (!content.helpPromo || content.helpPromo === OLD_HINDI_TEXT) setPromo(HINDI_TEXT)
+    else setPromo(content.helpPromo)
   }), [])
 
   useEffect(() => {
@@ -48,7 +51,9 @@ export default function HelpPromoModal({ onChat, onHelp, initialDelayMs = 2000, 
           >
             Chat
           </button>
-          <img className="help-promo-logo" src={logo} alt="RPK 90" />
+          <div className="help-promo-logo-wrap">
+            <img className="help-promo-logo" src={logo} alt="RPK 90" />
+          </div>
           <button
             type="button"
             className="help-promo-circle"

@@ -4,9 +4,7 @@ import {
   listenWalletTransactions,
   listenWithdrawals,
   listenUserDeposits,
-  listenContent,
   loadBankAccount,
-  requestDeposit,
   requestWithdraw,
   saveBankAccount,
   transferPoints,
@@ -39,11 +37,12 @@ function AmountGrid({ selected, onSelect }) {
   )
 }
 
-export default function WalletPage() {
+export default function WalletPage({ onAddPoints }) {
   const { user, profile } = useAuth()
   const [mode, setMode] = useState('add')
   const [selected, setSelected] = useState(null)
-  const [visibleCount, setVisibleCount] = useState(2)
+  const [amountText, setAmountText] = useState('')
+  const [visibleCount, setVisibleCount] = useState(4)
   const [transferOpen, setTransferOpen] = useState(false)
   const [toUserId, setToUserId] = useState('')
   const [transferPointsValue, setTransferPointsValue] = useState('')
@@ -51,13 +50,11 @@ export default function WalletPage() {
   const [withdrawals, setWithdrawals] = useState([])
   const [deposits, setDeposits] = useState([])
   const [bank, setBank] = useState({ bankName: '', holder: '', account: '', ifsc: '', upi: '' })
-  const [content, setContent] = useState({})
   const [message, setMessage] = useState('')
 
   useEffect(() => listenWalletTransactions(user?.uid, setHistory), [user?.uid])
   useEffect(() => listenWithdrawals(user?.uid, setWithdrawals), [user?.uid])
   useEffect(() => listenUserDeposits(user?.uid, setDeposits), [user?.uid])
-  useEffect(() => listenContent(setContent), [])
   useEffect(() => {
     if (!user?.uid) return undefined
     loadBankAccount(user.uid).then((saved) => {
@@ -79,6 +76,31 @@ export default function WalletPage() {
     setBank((current) => ({ ...current, [name]: value }))
   }
 
+  function pickAmount(amount) {
+    setSelected(amount)
+    setAmountText(String(amount))
+  }
+
+  function amountValue() {
+    const typed = Number(String(amountText).trim())
+    if (Number.isFinite(typed) && typed > 0) return typed
+    if (Number.isFinite(selected) && selected > 0) return selected
+    return 0
+  }
+
+  function openAddPoints() {
+    const amount = amountValue()
+    if (!amount) {
+      setMessage('Select an amount')
+      return
+    }
+    if (!onAddPoints) {
+      setMessage('Unable to open payment page')
+      return
+    }
+    onAddPoints(amount)
+  }
+
   return (
     <div className="wallet-page">
       <div className="wallet-tabs">
@@ -95,31 +117,26 @@ export default function WalletPage() {
           <>
             <div className="wallet-amount-bar">
               <span className="wallet-amount-icon"><BankIcon /></span>
-              Add Amount
+              <input
+                className="wallet-amount-input"
+                type="number"
+                inputMode="numeric"
+                placeholder="Add Amount"
+                value={amountText}
+                onChange={(event) => {
+                  const value = event.target.value
+                  setAmountText(value)
+                  const next = Number(value)
+                  setSelected(amounts.includes(next) ? next : null)
+                }}
+              />
             </div>
-            <AmountGrid selected={selected} onSelect={setSelected} />
-            {(content.depositQrUrl || content.depositUpi) && (
-              <div className="mb-3 flex flex-col items-center gap-3 rounded-xl bg-white p-3 sm:flex-row sm:items-center">
-                {content.depositQrUrl && (
-                  <img src={content.depositQrUrl} alt="Pay QR" className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
-                )}
-                <div className="min-w-0 text-center sm:text-left">
-                  <p className="text-xs text-neutral-500">Pay on this UPI</p>
-                  <p className="break-all font-semibold">{content.depositUpi}</p>
-                  <p className="mt-1 text-xs text-neutral-500">Then send the screenshot in Chat.</p>
-                </div>
-              </div>
-            )}
+            <AmountGrid selected={selected} onSelect={pickAmount} />
             <p className="wallet-note">Your Amount will be deposit in 5 to 10 minutes</p>
             <div className="wallet-actions">
               <button
                 type="button"
-                onClick={() => {
-                  if (!selected) return setMessage('Select an amount')
-                  requestDeposit({ amount: selected })
-                    .then(() => setMessage(`Deposit request sent: ₹${selected}. Send proof in Chat.`))
-                    .catch((error) => setMessage(error.message))
-                }}
+                onClick={openAddPoints}
                 className="wallet-action"
               >
                 Add Points
@@ -157,7 +174,7 @@ export default function WalletPage() {
                       <td>{row.dateLabel || ''}</td>
                       <td>{row.points}</td>
                       <td>{row.closing}</td>
-                      <td className="wallet-status">{row.status}</td>
+                      <td className={/success/i.test(row.status || '') ? 'wallet-status' : ''}>{row.status}</td>
                     </tr>
                   ))}
                   {history.length === 0 && (
@@ -179,9 +196,21 @@ export default function WalletPage() {
             <p className="wallet-note">यार, आप कम से कम ₹200 निकाल सकते हैं और आप 24*7 पैसे निकाल सकते हैं।</p>
             <div className="wallet-amount-bar">
               <span className="wallet-amount-icon"><BankIcon /></span>
-              Withdraw
+              <input
+                className="wallet-amount-input"
+                type="number"
+                inputMode="numeric"
+                placeholder="Withdraw"
+                value={amountText}
+                onChange={(event) => {
+                  const value = event.target.value
+                  setAmountText(value)
+                  const next = Number(value)
+                  setSelected(amounts.includes(next) ? next : null)
+                }}
+              />
             </div>
-            <AmountGrid selected={selected} onSelect={setSelected} />
+            <AmountGrid selected={selected} onSelect={pickAmount} />
             <p className="wallet-note">आप सिर्फ जीता हुआ पैसा ही अपने अकाउंट में निकाल सकते हो</p>
             <p className="wallet-win">Win Amount :- {profile?.winAmount || 0}</p>
 
@@ -216,9 +245,9 @@ export default function WalletPage() {
             <button
               type="button"
               onClick={() => {
-                if (!selected) return setMessage('Select an amount')
-                requestWithdraw({ amount: selected, bank })
-                  .then(() => setMessage(`Withdrawal requested: ₹${selected}`))
+                if (!amountValue()) return setMessage('Select an amount')
+                requestWithdraw({ amount: amountValue(), bank })
+                  .then(() => setMessage(`Withdrawal requested: ₹${amountValue()}`))
                   .catch((error) => setMessage(error.message))
               }}
               className="wallet-withdrawal"

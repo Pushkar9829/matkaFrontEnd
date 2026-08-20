@@ -19,12 +19,12 @@ export default function TermsPage() {
 
   return (
     <div className="min-h-[70vh] bg-white">
-      <div className="bg-[#f5d000] px-3 py-3 text-center text-base font-bold text-green-700 sm:text-xl">
+      <div className="bg-[#f5d000] px-3 py-2 text-center text-sm font-bold text-green-700 sm:py-3 sm:text-xl">
         ✨ RPK90 TERMS AND CONDITION ✨
       </div>
       <div className="space-y-4 px-4 py-5 sm:px-6">
         {terms.map((term) => (
-          <p key={term} className="text-[15px] leading-relaxed text-black">🔥 {term}</p>
+          <p key={term} className="text-[13px] leading-relaxed text-black sm:text-[15px]">🔥 {term}</p>
         ))}
       </div>
     </div>

@@ -19,13 +19,14 @@ export default function PlayHistoryPage({ onViewChange }) {
   const [view, setView] = useState('pending')
   const [markets, setMarkets] = useState([])
   const [rows, setRows] = useState([])
+  const [reload, setReload] = useState(0)
 
   useEffect(() => {
     onViewChange?.(view)
   }, [view, onViewChange])
 
   useEffect(() => listenMarkets(setMarkets), [])
-  useEffect(() => listenBets(user?.uid, view === 'declared' ? 'declared' : 'pending', setRows), [user?.uid, view])
+  useEffect(() => listenBets(user?.uid, view === 'declared' ? 'declared' : 'pending', setRows), [user?.uid, view, reload])
 
   const columns = view === 'declared' ? declaredColumns : pendingColumns
   const filtered = useMemo(() => {
@@ -50,17 +51,28 @@ export default function PlayHistoryPage({ onViewChange }) {
               <option key={item.id} value={item.name}>{item.name}</option>
             ))}
           </select>
+          <button
+            type="button"
+            className="play-history-refresh"
+            aria-label="Refresh"
+            onClick={() => setReload((value) => value + 1)}
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 12a9 9 0 1 1-2.6-6.3" strokeLinecap="round" />
+              <path d="M21 3v6h-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
 
       <div className="play-history-panel">
         <div className="play-history-col">
-          <button type="button" onClick={() => setView('pending')} className={`play-history-btn ${view === 'pending' ? 'is-green' : 'is-orange'}`}>Pending Bet</button>
-          <p className="play-history-note">जिस गेम का रिजल्ट नहीं आया वो PENDING BET में दिखेगी।</p>
+          <button type="button" onClick={() => setView('pending')} className={`play-history-btn is-green${view === 'pending' ? ' is-on' : ''}`}>Pending Bet</button>
+          <p className="play-history-note">जिन गेम का रिजल्ट नही आया वो PENDING BET में दिखेंगी।</p>
         </div>
         <div className="play-history-col">
-          <button type="button" onClick={() => setView('declared')} className={`play-history-btn ${view === 'declared' ? 'is-green' : 'is-orange'}`}>Declared Bet</button>
-          <p className="play-history-note">जिस गेम का रिजल्ट आ गया है वो DECLARED BET में दिखेगी।</p>
+          <button type="button" onClick={() => setView('declared')} className={`play-history-btn is-orange${view === 'declared' ? ' is-on' : ''}`}>Declared Bet</button>
+          <p className="play-history-note">जिन गेम का रिजल्ट आ गया है वो DECLARED BET में दिखेंगी।</p>
         </div>
       </div>
 
@@ -71,7 +83,7 @@ export default function PlayHistoryPage({ onViewChange }) {
           </thead>
           <tbody>
             {filtered.length === 0 ? (
-              <tr><td colSpan={columns.length}>No data available or something went wrong.</td></tr>
+              <tr><td colSpan={columns.length} className="play-history-empty">No data available or something went wrong.</td></tr>
             ) : (
               filtered.map((row, index) => (
                 <tr key={row.id}>

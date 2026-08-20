@@ -36,10 +36,20 @@ function LogoutIcon() {
   )
 }
 
+function DownloadIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className="side-menu-icon-svg" fill="currentColor">
+      <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+      <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+    </svg>
+  )
+}
+
 function MenuIcon({ type }) {
   if (type === 'phone') return <PhoneIcon />
   if (type === 'share') return <ShareIcon />
   if (type === 'logout') return <LogoutIcon />
+  if (type === 'download') return <DownloadIcon />
   if (type === 'sword') return <img src={swordIcon} alt="" className="side-menu-icon-img" />
   if (type === 'game') return <img src={gameIcon} alt="" className="side-menu-icon-img" />
   if (type === 'history') return <img src={historyIcon} alt="" className="side-menu-icon-img" />
@@ -89,7 +99,7 @@ const items = [
     icon: 'rate',
   },
   { id: 'logout', label: 'Logout', icon: 'logout' },
-  { id: 'download-apk', label: 'Download APK', icon: 'rate' },
+  { id: 'download-apk', label: 'Download APK', icon: 'download' },
 ]
 
 export default function SideMenu({ open, onClose, onNavigate, onLogout, userId }) {
@@ -152,7 +162,9 @@ export default function SideMenu({ open, onClose, onNavigate, onLogout, userId }
           </button>
 
           <div className="side-menu-top">
-            <img src={logo} alt="RPK 90" className="side-menu-logo" />
+            <div className="side-menu-logo-wrap">
+              <img src={logo} alt="RPK 90" className="side-menu-logo" />
+            </div>
             <button
               type="button"
               className="side-menu-edit"
@@ -186,13 +198,20 @@ export default function SideMenu({ open, onClose, onNavigate, onLogout, userId }
 
           <div className="side-menu-social">
             <div className="side-menu-social-row">
-              <a href={siteUrl} target="_blank" rel="noreferrer">
+              <button
+                type="button"
+                className="side-menu-social-link"
+                onClick={() => {
+                  onClose()
+                  onNavigate('chat')
+                }}
+              >
                 <span className="social-chat">Chat</span>
-                <span>हमसे बात करने के लिए चैट पे क्लिक करे</span>
-              </a>
+                <span>हमसे बात करने के लिए चैट पे क्लिक</span>
+              </button>
               <a href={content.facebookUrl || 'https://facebook.com'} target="_blank" rel="noreferrer">
                 <span className="social-fb">f</span>
-                <span>सट्टा गेम के लिए हमारा फेसबुक ग्रुप ज्वाइन करे</span>
+                <span>सोलिड गेम के लिए हमारा फेसबुक ग्रुप</span>
               </a>
               <a href={content.instagramUrl || 'https://instagram.com'} target="_blank" rel="noreferrer">
                 <span className="social-ig">
@@ -201,9 +220,6 @@ export default function SideMenu({ open, onClose, onNavigate, onLogout, userId }
                 <span>इंस्टाग्राम पर फॉलो करे</span>
               </a>
             </div>
-            <a href={siteUrl} target="_blank" rel="noreferrer" className="side-menu-site">
-              www.rpk90.com
-            </a>
           </div>
         </div>
       </aside>

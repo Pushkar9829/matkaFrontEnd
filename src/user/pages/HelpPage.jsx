@@ -13,11 +13,11 @@ export default function HelpPage() {
       ]
 
   return (
-    <div className="min-h-[70vh] bg-[#eef3f8] p-4">
-      <h2 className="mb-4 text-center text-xl font-semibold text-neutral-800">Help</h2>
-      <div className="space-y-3">
+    <div className="min-h-[70vh] bg-[#eef3f8] p-3 sm:p-4">
+      <h2 className="mb-3 text-center text-base font-semibold text-neutral-800 sm:mb-4 sm:text-xl">Help</h2>
+      <div className="space-y-2 sm:space-y-3">
         {items.map((item) => (
-          <p key={item} className="rounded-xl bg-white px-4 py-3 text-sm leading-relaxed text-neutral-800 shadow-sm">
+          <p key={item} className="rounded-lg bg-white px-3 py-2 text-[13px] leading-relaxed text-neutral-800 shadow-sm sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm">
             {item}
           </p>
         ))}

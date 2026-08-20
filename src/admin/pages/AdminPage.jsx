@@ -685,6 +685,7 @@ export default function AdminPage({ mobile, onLogout }) {
                     <div key={item.id} className="mb-2 flex items-center justify-between gap-3 border-b border-neutral-100 py-2 last:mb-0 last:border-0">
                       <div>
                         <p className="font-medium">{item.mobile} · {money(item.amount)}</p>
+                        {item.utr && <p className="text-xs text-neutral-500">UTR {item.utr}</p>}
                         <Pill>{item.status}</Pill>
                       </div>
                       {item.status === 'pending' && (

@@ -65,6 +65,9 @@ export default function SettingsPanel({ onOk, onError }) {
         <Field label="Deposit UPI ID">
           <input value={content.depositUpi || ''} onChange={(event) => setContent((current) => ({ ...current, depositUpi: event.target.value }))} className={inputClass} placeholder="rpk90@upi" />
         </Field>
+        <Field label="Deposit account name">
+          <input value={content.depositName || ''} onChange={(event) => setContent((current) => ({ ...current, depositName: event.target.value }))} className={inputClass} placeholder="SAGAR GENERL STORE" />
+        </Field>
       </Card>
 
       <Card className="space-y-3 p-4 sm:p-5">

@@ -53,17 +53,17 @@ export default function ChatPage({ kind = 'deposit', onBack }) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#e8eef4]">
-      <header className="flex items-center justify-between gap-2 bg-[#e4c25a] px-3 py-3 text-white">
+      <header className="flex items-center justify-between gap-2 bg-[#e4c25a] px-2 py-2 text-white sm:px-3 sm:py-3">
         <button type="button" onClick={onBack} aria-label="Go back" className="shrink-0 p-1">
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h1 className="min-w-0 truncate text-base font-medium sm:text-lg">{isDeposit ? 'Deposit Chat' : 'Withdraw Chat'}</h1>
-        <img src={logo} alt="RPK 90" className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" />
+        <h1 className="min-w-0 truncate text-sm font-medium sm:text-lg">{isDeposit ? 'Deposit Chat' : 'Withdraw Chat'}</h1>
+        <img src={logo} alt="RPK 90" className="h-8 w-8 shrink-0 object-contain sm:h-10 sm:w-10" />
       </header>
 
-      <div className="bg-red-600 px-3 py-2 text-center text-[11px] leading-snug text-white sm:text-xs">
+      <div className="bg-red-600 px-2 py-1.5 text-center text-[10px] leading-snug text-white sm:px-3 sm:py-2 sm:text-xs">
         {notice}
       </div>
 
@@ -85,7 +85,7 @@ export default function ChatPage({ kind = 'deposit', onBack }) {
           return (
             <div key={message.id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[75%] ${mine ? 'text-right' : 'text-left'}`}>
-                <div className={`inline-block rounded-2xl px-4 py-2 text-sm leading-relaxed whitespace-pre-wrap ${mine ? 'rounded-br-sm bg-[#3da9f5] text-white' : 'rounded-bl-sm bg-white text-neutral-800'}`}>
+                <div className={`inline-block rounded-2xl px-3 py-1.5 text-[13px] leading-relaxed whitespace-pre-wrap sm:px-4 sm:py-2 sm:text-sm ${mine ? 'rounded-br-sm bg-[#3da9f5] text-white' : 'rounded-bl-sm bg-white text-neutral-800'}`}>
                   {message.text}
                 </div>
                 <p className="mt-1 text-[11px] text-neutral-500">{formatTime(message.createdAt)}</p>

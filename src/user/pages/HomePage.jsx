@@ -108,7 +108,7 @@ export default function HomePage({ onOpenChat }) {
         </div>
       </section>
 
-      <div className="home-marquee mt-3">
+      <div className="home-marquee">
         <div className="home-marquee-track">
           {[0, 1, 2, 3].map((index) => (
             <span key={index}>
@@ -125,20 +125,30 @@ export default function HomePage({ onOpenChat }) {
         <p className="mt-0.5 font-semibold">{formatClock(now)}</p>
       </div>
 
-      {featured && (
+      {featured ? (
         <div className="home-featured">
           <MoneyBag />
           <div className="min-w-0 text-center">
-            <p className="text-lg font-semibold text-red-600 sm:text-[22px]">Result</p>
-            <p className="truncate text-sm font-semibold tracking-wide text-neutral-900">{featured.name}</p>
-            <p className="text-base font-medium text-neutral-900 sm:text-lg">{featured.today}</p>
+            <p className="home-featured-title">Result</p>
+            <p className="home-featured-name">{featured.today === 'XX' ? 'Not Available' : featured.name}</p>
+            <p className="home-featured-value">{featured.today === 'XX' ? 'Result Not Available' : featured.today}</p>
+          </div>
+          <MoneyBag />
+        </div>
+      ) : (
+        <div className="home-featured">
+          <MoneyBag />
+          <div className="min-w-0 text-center">
+            <p className="home-featured-title">Result</p>
+            <p className="home-featured-name">Not Available</p>
+            <p className="home-featured-value">Result Not Available</p>
           </div>
           <MoneyBag />
         </div>
       )}
 
-      <p className="mt-4 px-3 text-center text-sm font-medium text-fuchsia-600 sm:text-base">🔥 सबसे पहले रिजल्ट देखने के लिए क्लिक करे 🔥</p>
-      <div className="mb-4 flex justify-center">
+      <p className="home-click-hint">🔥 सबसे पहले रिजल्ट देखने के लिए क्लिक करे 🔥</p>
+      <div className="mb-3 flex justify-center">
         <button
           type="button"
           onClick={() => {
@@ -148,7 +158,7 @@ export default function HomePage({ onOpenChat }) {
             }
             resultsRef.current?.scrollIntoView({ behavior: 'smooth' })
           }}
-          className="rounded-full bg-linear-to-b from-neutral-700 to-black px-6 py-2 text-sm text-white shadow sm:px-8 sm:text-base"
+          className="home-click-link"
         >
           Click Link
         </button>
@@ -170,24 +180,28 @@ export default function HomePage({ onOpenChat }) {
 
       {rows.map((market) => (
         <div key={market.id || market.name} className="market-row">
-          <div className="market-col market-col-name">
-            <p className="market-name">{market.name}</p>
-            <p className="market-label">Open Time</p>
-            <p className="market-time">{market.open}</p>
-          </div>
-          <div className="market-split" />
-          <div className="market-col">
-            <p className="market-label">Close Time</p>
-            <p className="market-time">{market.close}</p>
-          </div>
-          <div className="market-split" />
-          <div className="market-col">
-            <p className="market-label">Result At</p>
-            <p className="market-time">{market.resultAt}</p>
-          </div>
-          <div className="market-nums">
-            <span>{market.previous}</span>
-            <span>{market.today}</span>
+          <p className="market-name">{market.name}</p>
+          <div className="market-body">
+            <div className="market-times">
+              <div>
+                <p className="market-label">Open Time</p>
+                <p className="market-time">{market.open}</p>
+              </div>
+              <div className="market-split" />
+              <div>
+                <p className="market-label">Close Time</p>
+                <p className="market-time">{market.close}</p>
+              </div>
+              <div className="market-split" />
+              <div>
+                <p className="market-label">Result At</p>
+                <p className="market-time">{market.resultAt}</p>
+              </div>
+            </div>
+            <div className="market-nums">
+              <span>{market.previous}</span>
+              <span>{market.today}</span>
+            </div>
           </div>
         </div>
       ))}

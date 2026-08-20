@@ -12,13 +12,13 @@ export default function AppDetailsPage() {
   ]
 
   return (
-    <div className="min-h-[70vh] bg-[#e8eef4] px-3 py-8">
-      <div className="mb-8 flex justify-center">
-        <img src={logo} alt="RPK 90" className="h-28 w-28 object-contain drop-shadow-xl sm:h-32 sm:w-32" />
+    <div className="app-details">
+      <div className="app-details-logo-wrap">
+        <img src={logo} alt="RPK 90" className="app-details-logo" />
       </div>
-      <div className="space-y-3">
+      <div className="app-details-list">
         {details.map((item) => (
-          <div key={item.label} className="rounded-md bg-white py-3 text-center text-sm text-neutral-800 shadow-sm">
+          <div key={item.label} className="app-details-card">
             {item.label}:{item.value}
           </div>
         ))}

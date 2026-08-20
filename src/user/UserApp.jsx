@@ -11,6 +11,7 @@ import TermsPage from './pages/TermsPage'
 import PlayPage from './pages/PlayPage'
 import GamePlayPage from './pages/GamePlayPage'
 import WalletPage from './pages/WalletPage'
+import AddPointsPage from './pages/AddPointsPage'
 import ChatPage from './pages/ChatPage'
 import HelpPage from './pages/HelpPage'
 import PlaceholderPage from './pages/PlaceholderPage'
@@ -40,6 +41,7 @@ export default function UserApp() {
   const [tab, setTab] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
   const [selectedMarket, setSelectedMarket] = useState(null)
+  const [depositAmount, setDepositAmount] = useState(0)
   const [chatKind, setChatKind] = useState('deposit')
   const [historyView, setHistoryView] = useState('pending')
   const [unreadCount, setUnreadCount] = useState(0)
@@ -63,7 +65,7 @@ export default function UserApp() {
   }
 
   const userId = profile?.mobile || user.email || ''
-  const hideChrome = tab === 'game-posting' || tab === 'game-play' || tab === 'chat'
+  const hideChrome = tab === 'game-posting' || tab === 'game-play' || tab === 'chat' || tab === 'add-points'
 
   return (
     <div className="min-h-dvh max-w-full overflow-x-hidden bg-[#eef3f8]">
@@ -87,10 +89,15 @@ export default function UserApp() {
         <GamePostingPage onBack={() => setTab('home')} />
       ) : tab === 'game-play' && selectedMarket ? (
         <GamePlayPage market={selectedMarket} pointsRemaining={profile?.balance || 0} onBack={() => setTab('play')} />
+      ) : tab === 'add-points' ? (
+        <AddPointsPage
+          amount={depositAmount}
+          onBack={() => setTab('wallet')}
+        />
       ) : tab === 'chat' ? (
         <ChatPage kind={chatKind} onBack={() => setTab('home')} />
       ) : (
-        <main className="pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))]">
+        <main className="pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))]">
           {tab === 'home' && (
             <HomePage
               onOpenChat={(kind) => {
@@ -107,7 +114,14 @@ export default function UserApp() {
               }}
             />
           )}
-          {tab === 'wallet' && <WalletPage />}
+          {tab === 'wallet' && (
+            <WalletPage
+              onAddPoints={(amount) => {
+                setDepositAmount(amount)
+                setTab('add-points')
+              }}
+            />
+          )}
           {tab === 'help' && <HelpPage />}
           {tab === 'edit-profile' && <ProfilePage />}
           {tab === 'notifications' && <NotificationPage />}
@@ -136,6 +150,7 @@ export default function UserApp() {
         onClose={() => setMenuOpen(false)}
         onNavigate={(next) => {
           if (next === 'play-history') setHistoryView('pending')
+          if (next === 'chat') setChatKind('deposit')
           setTab(next)
         }}
         userId={userId}
@@ -144,13 +159,15 @@ export default function UserApp() {
           logout()
         }}
       />
-      <HelpPromoModal
-        onChat={() => {
-          setChatKind('deposit')
-          setTab('chat')
-        }}
-        onHelp={() => setTab('help')}
-      />
+      {!['add-points', 'game-play', 'game-posting', 'chat', 'wallet'].includes(tab) && (
+        <HelpPromoModal
+          onChat={() => {
+            setChatKind('deposit')
+            setTab('chat')
+          }}
+          onHelp={() => setTab('help')}
+        />
+      )}
     </div>
   )
 }
