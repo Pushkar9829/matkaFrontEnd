@@ -53,7 +53,7 @@ export default function UserApp() {
 
   if (profile?.blocked) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#eef3f8] p-6 text-center">
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-[#eef3f8] p-6 text-center">
         <p className="text-lg font-medium">This account is blocked.</p>
         <button type="button" className="mt-4 rounded bg-[#d7b54a] px-4 py-2 text-white" onClick={logout}>
           Logout
@@ -66,7 +66,7 @@ export default function UserApp() {
   const hideChrome = tab === 'game-posting' || tab === 'game-play' || tab === 'chat'
 
   return (
-    <div className="min-h-screen bg-[#eef3f8]">
+    <div className="min-h-dvh max-w-full overflow-x-hidden bg-[#eef3f8]">
       {!hideChrome && (
         <Header
           title={
@@ -90,7 +90,7 @@ export default function UserApp() {
       ) : tab === 'chat' ? (
         <ChatPage kind={chatKind} onBack={() => setTab('home')} />
       ) : (
-        <main className="pb-24">
+        <main className="pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))]">
           {tab === 'home' && (
             <HomePage
               onOpenChat={(kind) => {

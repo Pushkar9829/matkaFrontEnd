@@ -56,41 +56,41 @@ export default function HomePage({ onOpenChat }) {
 
   return (
     <div className="bg-[#eef3f8] pb-4">
-      <section className="grid grid-cols-3 items-center gap-2 px-4 pt-4">
-        <div className="flex flex-col items-start gap-2">
+      <section className="home-toolbar">
+        <div className="home-toolbar-chats">
           <button
             type="button"
             onClick={() => onOpenChat('deposit')}
-            className="flex items-center gap-2 rounded-full bg-[#1a1a1a] px-4 py-2 text-[15px] font-medium text-white"
+            className="home-toolbar-btn home-toolbar-btn-dark"
           >
-            <i className="bi bi-chat-dots text-[22px] text-[#7ee7f0]" />
+            <i className="bi bi-chat-dots" />
             Deposit Chat
           </button>
           <button
             type="button"
             onClick={() => onOpenChat('withdraw')}
-            className="flex items-center gap-2 rounded-full bg-[#f5c400] px-4 py-2 text-[15px] font-medium text-black"
+            className="home-toolbar-btn home-toolbar-btn-gold"
           >
-            <i className="bi bi-chat-dots text-[22px] text-[#5a3d00]" />
+            <i className="bi bi-chat-dots" />
             Withdraw Chat
           </button>
         </div>
 
-        <div className="flex justify-center">
-          <img src={logo} alt="RPK 90" className="h-[72px] w-[72px] object-contain drop-shadow-md sm:h-20 sm:w-20" />
+        <div className="home-toolbar-logo">
+          <img src={logo} alt="RPK 90" />
         </div>
 
-        <div className="flex flex-col items-end gap-2">
+        <div className="home-toolbar-actions">
           <button
             type="button"
             onClick={() => {
               const url = content.otherGameUrl || content.siteUrl
               if (url) window.open(url, '_blank', 'noopener,noreferrer')
             }}
-            className="relative w-[200px] rounded-full bg-linear-to-r from-[#9b4dff] to-[#3ecbff] py-2.5 text-[15px] font-medium text-white sm:w-[230px]"
+            className="home-toolbar-btn home-toolbar-btn-other"
           >
             Other Game
-            <span className="absolute -top-2 right-6 rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-bold text-white">NEW</span>
+            <span className="home-toolbar-new">NEW</span>
           </button>
           <button
             type="button"
@@ -101,7 +101,7 @@ export default function HomePage({ onOpenChat }) {
               loadResultsForDates(dateKey(today), dateKey(yesterday)).then(setResults).catch(() => {})
               setNow(new Date())
             }}
-            className="w-[200px] rounded-full bg-[#6b3a12] py-2.5 text-[15px] font-medium text-white sm:w-[230px]"
+            className="home-toolbar-btn home-toolbar-btn-refresh"
           >
             Refresh
           </button>
@@ -120,24 +120,24 @@ export default function HomePage({ onOpenChat }) {
         </div>
       </div>
 
-      <div className="mx-1 border-[5px] border-black bg-[#e0c14a] py-3 text-center font-medium text-black">
+      <div className="home-flash">
         {flashLines.map((line) => <p key={line}>{line}</p>)}
         <p className="mt-0.5 font-semibold">{formatClock(now)}</p>
       </div>
 
       {featured && (
-        <div className="mx-2 flex items-center justify-center gap-10 rounded-xl bg-white px-8 py-3 shadow-sm sm:gap-16">
+        <div className="home-featured">
           <MoneyBag />
-          <div className="text-center">
-            <p className="text-[22px] font-semibold text-red-600">Result</p>
-            <p className="text-sm font-semibold tracking-wide text-neutral-900">{featured.name}</p>
-            <p className="text-lg font-medium text-neutral-900">{featured.today}</p>
+          <div className="min-w-0 text-center">
+            <p className="text-lg font-semibold text-red-600 sm:text-[22px]">Result</p>
+            <p className="truncate text-sm font-semibold tracking-wide text-neutral-900">{featured.name}</p>
+            <p className="text-base font-medium text-neutral-900 sm:text-lg">{featured.today}</p>
           </div>
           <MoneyBag />
         </div>
       )}
 
-      <p className="mt-4 text-center font-medium text-fuchsia-600">🔥 सबसे पहले रिजल्ट देखने के लिए क्लिक करे 🔥</p>
+      <p className="mt-4 px-3 text-center text-sm font-medium text-fuchsia-600 sm:text-base">🔥 सबसे पहले रिजल्ट देखने के लिए क्लिक करे 🔥</p>
       <div className="mb-4 flex justify-center">
         <button
           type="button"
@@ -148,7 +148,7 @@ export default function HomePage({ onOpenChat }) {
             }
             resultsRef.current?.scrollIntoView({ behavior: 'smooth' })
           }}
-          className="rounded-full bg-linear-to-b from-neutral-700 to-black px-8 py-2 text-white shadow"
+          className="rounded-full bg-linear-to-b from-neutral-700 to-black px-6 py-2 text-sm text-white shadow sm:px-8 sm:text-base"
         >
           Click Link
         </button>
@@ -170,18 +170,18 @@ export default function HomePage({ onOpenChat }) {
 
       {rows.map((market) => (
         <div key={market.id || market.name} className="market-row">
-          <div className="min-w-0 flex-[1.2]">
+          <div className="market-col market-col-name">
             <p className="market-name">{market.name}</p>
             <p className="market-label">Open Time</p>
             <p className="market-time">{market.open}</p>
           </div>
           <div className="market-split" />
-          <div className="min-w-[90px] flex-1">
+          <div className="market-col">
             <p className="market-label">Close Time</p>
             <p className="market-time">{market.close}</p>
           </div>
           <div className="market-split" />
-          <div className="min-w-[90px] flex-1">
+          <div className="market-col">
             <p className="market-label">Result At</p>
             <p className="market-time">{market.resultAt}</p>
           </div>

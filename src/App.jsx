@@ -9,7 +9,7 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="gold-page flex min-h-screen items-center justify-center text-white">
+      <div className="gold-page flex min-h-dvh items-center justify-center text-white">
         Loading...
       </div>
     )

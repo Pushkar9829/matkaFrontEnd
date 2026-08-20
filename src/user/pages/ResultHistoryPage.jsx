@@ -35,13 +35,13 @@ export default function ResultHistoryPage() {
   return (
     <div className="min-h-[70vh] bg-[#0b2a6e] pb-4">
       <div className="bg-white px-3 py-3">
-        <div className="rounded-sm border-2 border-dashed border-black bg-[#f5d000] py-3 text-center text-xl font-medium text-black">
+        <div className="rounded-sm border-2 border-dashed border-black bg-[#f5d000] px-2 py-3 text-center text-lg font-medium text-black sm:text-xl">
           {bannerMonth} Month Result
         </div>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-4 px-3 py-4">
-        <select value={month} onChange={(event) => setMonth(event.target.value)} className="min-w-[180px] rounded-md border-0 bg-white px-4 py-2 text-neutral-800 outline-none">
+        <select value={month} onChange={(event) => setMonth(event.target.value)} className="w-full max-w-xs min-w-0 rounded-md border-0 bg-white px-4 py-2 text-neutral-800 outline-none">
           {months.map((item) => (
             <option key={item.value} value={item.value}>{item.label}</option>
           ))}

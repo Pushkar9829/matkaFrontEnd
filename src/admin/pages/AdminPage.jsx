@@ -384,7 +384,7 @@ export default function AdminPage({ mobile, onLogout }) {
               Menu
             </button>
             <div className="min-w-0">
-              <h1 className="text-lg font-medium leading-tight">{currentTab?.label}</h1>
+              <h1 className="truncate text-base font-medium leading-tight sm:text-lg">{currentTab?.label}</h1>
               <p className="hidden truncate text-xs text-white/80 sm:block">{currentTab?.hint}</p>
             </div>
           </div>
@@ -397,7 +397,7 @@ export default function AdminPage({ mobile, onLogout }) {
           </div>
         )}
 
-        <main ref={mainRef} className="min-h-0 flex-1 overflow-y-auto p-4 text-sm md:p-6">
+        <main ref={mainRef} className="min-h-0 flex-1 overflow-x-auto overflow-y-auto p-3 text-sm sm:p-4 md:p-6">
           {tab === 'Dashboard' && (
             <DashboardPanel
               userById={userById}
@@ -424,9 +424,9 @@ export default function AdminPage({ mobile, onLogout }) {
               <Card className="p-3">
                 <p className="mb-2 text-xs font-medium uppercase tracking-wide text-neutral-500">Adjust points</p>
                 <div className="flex flex-wrap gap-2">
-                  <input value={adjust.userId} onChange={(event) => setAdjust((current) => ({ ...current, userId: event.target.value }))} placeholder="Click a user, or paste id" className="min-w-[180px] flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
-                  <input value={adjust.amount} onChange={(event) => setAdjust((current) => ({ ...current, amount: event.target.value }))} placeholder="Amount (+ / −)" className="w-32 rounded-lg border border-neutral-200 px-3 py-2" />
-                  <input value={adjust.reason} onChange={(event) => setAdjust((current) => ({ ...current, reason: event.target.value }))} placeholder="Reason" className="min-w-[140px] flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
+                  <input value={adjust.userId} onChange={(event) => setAdjust((current) => ({ ...current, userId: event.target.value }))} placeholder="Click a user, or paste id" className="min-w-0 flex-1 basis-full rounded-lg border border-neutral-200 px-3 py-2 sm:basis-auto" />
+                  <input value={adjust.amount} onChange={(event) => setAdjust((current) => ({ ...current, amount: event.target.value }))} placeholder="Amount (+ / −)" className="w-full rounded-lg border border-neutral-200 px-3 py-2 sm:w-32" />
+                  <input value={adjust.reason} onChange={(event) => setAdjust((current) => ({ ...current, reason: event.target.value }))} placeholder="Reason" className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
                   <button
                     type="button"
                     className="rounded-lg bg-[#d7b54a] px-4 py-2 font-medium text-white hover:bg-[#c9a63d]"

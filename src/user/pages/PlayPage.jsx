@@ -11,15 +11,15 @@ export default function PlayPage({ onPlay }) {
         {markets.map((market) => {
           const timeout = isMarketTimedOut(market)
           return (
-            <div key={market.id} className="flex items-center justify-between bg-[#e4c25a] px-4 py-3">
-              <span className="font-medium tracking-wide text-white">{market.name}</span>
+            <div key={market.id} className="flex items-center justify-between gap-2 bg-[#e4c25a] px-3 py-3 sm:px-4">
+              <span className="min-w-0 truncate font-medium tracking-wide text-white">{market.name}</span>
               {timeout ? (
-                <span className="rounded-md bg-orange-500 px-4 py-1.5 text-sm font-medium text-white">Time Out</span>
+                <span className="shrink-0 rounded-md bg-orange-500 px-3 py-1.5 text-sm font-medium text-white sm:px-4">Time Out</span>
               ) : (
                 <button
                   type="button"
                   onClick={() => onPlay(market)}
-                  className="rounded-md bg-[#2ea44f] px-4 py-1.5 text-sm font-medium text-white hover:bg-[#279345]"
+                  className="shrink-0 rounded-md bg-[#2ea44f] px-3 py-1.5 text-sm font-medium text-white hover:bg-[#279345] sm:px-4"
                 >
                   Play Games
                 </button>

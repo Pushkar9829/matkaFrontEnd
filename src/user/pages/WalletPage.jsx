@@ -99,13 +99,13 @@ export default function WalletPage() {
             </div>
             <AmountGrid selected={selected} onSelect={setSelected} />
             {(content.depositQrUrl || content.depositUpi) && (
-              <div className="mb-3 flex items-center gap-3 rounded-xl bg-white p-3">
+              <div className="mb-3 flex flex-col items-center gap-3 rounded-xl bg-white p-3 sm:flex-row sm:items-center">
                 {content.depositQrUrl && (
-                  <img src={content.depositQrUrl} alt="Pay QR" className="h-28 w-28 object-contain" />
+                  <img src={content.depositQrUrl} alt="Pay QR" className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
                 )}
-                <div>
+                <div className="min-w-0 text-center sm:text-left">
                   <p className="text-xs text-neutral-500">Pay on this UPI</p>
-                  <p className="font-semibold">{content.depositUpi}</p>
+                  <p className="break-all font-semibold">{content.depositUpi}</p>
                   <p className="mt-1 text-xs text-neutral-500">Then send the screenshot in Chat.</p>
                 </div>
               </div>
@@ -262,9 +262,9 @@ export default function WalletPage() {
       </div>
 
       {transferOpen && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-            <h2 className="mb-4 text-2xl font-semibold">Transfer Points</h2>
+        <div className="fixed inset-0 z-40 flex items-end justify-center overflow-y-auto bg-black/40 p-3 sm:items-center sm:p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl sm:p-6">
+            <h2 className="mb-4 text-xl font-semibold sm:text-2xl">Transfer Points</h2>
             <input value={toUserId} onChange={(event) => setToUserId(event.target.value)} placeholder="User ID" className="mb-3 w-full rounded-md border border-neutral-300 px-3 py-2" />
             <input type="number" value={transferPointsValue} onChange={(event) => setTransferPointsValue(event.target.value)} placeholder="Points" className="mb-4 w-full rounded-md border border-neutral-300 px-3 py-2" />
             <div className="flex gap-3">

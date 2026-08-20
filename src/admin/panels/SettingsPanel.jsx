@@ -27,7 +27,7 @@ export default function SettingsPanel({ onOk, onError }) {
 
   return (
     <div className="grid max-w-3xl gap-4">
-      <Card className="space-y-3 p-5">
+      <Card className="space-y-3 p-4 sm:p-5">
         <h3 className="font-semibold">Admin password</h3>
         <Field label="Current password">
           <input type="password" value={password.currentPassword} onChange={(event) => setPassword((current) => ({ ...current, currentPassword: event.target.value }))} className={inputClass} />
@@ -46,7 +46,7 @@ export default function SettingsPanel({ onOk, onError }) {
         </button>
       </Card>
 
-      <Card className="space-y-3 p-5">
+      <Card className="space-y-3 p-4 sm:p-5">
         <h3 className="font-semibold">Deposit QR & UPI</h3>
         <p className="text-xs text-neutral-500">Players see this QR and UPI on wallet add-point and in chat.</p>
         {content.depositQrUrl && (
@@ -67,7 +67,7 @@ export default function SettingsPanel({ onOk, onError }) {
         </Field>
       </Card>
 
-      <Card className="space-y-3 p-5">
+      <Card className="space-y-3 p-4 sm:p-5">
         <h3 className="font-semibold">Banner, flash & site copy</h3>
         {siteFields.map((field) => (
           <Field key={field.key} label={field.label}>

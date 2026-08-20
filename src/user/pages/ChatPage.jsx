@@ -52,15 +52,15 @@ export default function ChatPage({ kind = 'deposit', onBack }) {
     : (content.withdrawNotice || content.chatNotice || 'कृपया विड्रॉ के लिए सही बैंक डिटेल भेजें।')
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#e8eef4]">
-      <header className="flex items-center justify-between bg-[#e4c25a] px-3 py-3 text-white">
-        <button type="button" onClick={onBack} aria-label="Go back" className="p-1">
+    <div className="flex min-h-dvh flex-col bg-[#e8eef4]">
+      <header className="flex items-center justify-between gap-2 bg-[#e4c25a] px-3 py-3 text-white">
+        <button type="button" onClick={onBack} aria-label="Go back" className="shrink-0 p-1">
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <h1 className="text-lg font-medium">{isDeposit ? 'Deposit Chat' : 'Withdraw Chat'}</h1>
-        <img src={logo} alt="RPK 90" className="h-10 w-10 object-contain" />
+        <h1 className="min-w-0 truncate text-base font-medium sm:text-lg">{isDeposit ? 'Deposit Chat' : 'Withdraw Chat'}</h1>
+        <img src={logo} alt="RPK 90" className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" />
       </header>
 
       <div className="bg-red-600 px-3 py-2 text-center text-[11px] leading-snug text-white sm:text-xs">
@@ -68,13 +68,13 @@ export default function ChatPage({ kind = 'deposit', onBack }) {
       </div>
 
       {isDeposit && (content.depositQrUrl || content.depositUpi) && (
-        <div className="flex items-center gap-3 bg-white px-4 py-3">
+        <div className="flex flex-col items-center gap-3 bg-white px-4 py-3 sm:flex-row sm:items-center">
           {content.depositQrUrl && (
             <img src={content.depositQrUrl} alt="Pay QR" className="h-20 w-20 object-contain" />
           )}
-          <div>
+          <div className="min-w-0 text-center sm:text-left">
             <p className="text-xs text-neutral-500">Pay UPI</p>
-            <p className="font-medium">{content.depositUpi}</p>
+            <p className="break-all font-medium">{content.depositUpi}</p>
           </div>
         </div>
       )}
@@ -96,8 +96,8 @@ export default function ChatPage({ kind = 'deposit', onBack }) {
         <div ref={endRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 bg-[#e4c25a] px-3 py-3">
-        <input type="text" value={text} onChange={(event) => setText(event.target.value)} placeholder="Type Message" className="flex-1 rounded-md border-0 bg-white px-4 py-2.5 text-neutral-800 outline-none placeholder:text-neutral-500" />
+      <form onSubmit={handleSubmit} className="flex items-center gap-2 bg-[#e4c25a] px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
+        <input type="text" value={text} onChange={(event) => setText(event.target.value)} placeholder="Type Message" className="min-w-0 flex-1 rounded-md border-0 bg-white px-4 py-2.5 text-neutral-800 outline-none placeholder:text-neutral-500" />
         <input
           ref={fileRef}
           type="file"

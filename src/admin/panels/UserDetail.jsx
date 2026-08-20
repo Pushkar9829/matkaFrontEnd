@@ -53,7 +53,7 @@ export default function UserDetail({ user, onBack, onError, onOk }) {
           <div className="rounded-lg bg-neutral-50 p-3"><p className="text-xs text-neutral-500">Win amount</p><p className="font-semibold">{money(player.winAmount)}</p></div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          <input value={pin} onChange={(event) => setPin(event.target.value)} placeholder="New MPIN" className="w-36 rounded-lg border border-neutral-200 px-3 py-2" />
+          <input value={pin} onChange={(event) => setPin(event.target.value)} placeholder="New MPIN" className="w-full rounded-lg border border-neutral-200 px-3 py-2 sm:w-36" />
           <button
             type="button"
             className={primaryBtn}
@@ -65,8 +65,8 @@ export default function UserDetail({ user, onBack, onError, onOk }) {
           </button>
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
-          <input value={adjust.amount} onChange={(event) => setAdjust((current) => ({ ...current, amount: event.target.value }))} placeholder="Amount (+ / −)" className="w-32 rounded-lg border border-neutral-200 px-3 py-2" />
-          <input value={adjust.reason} onChange={(event) => setAdjust((current) => ({ ...current, reason: event.target.value }))} placeholder="Reason" className="min-w-[140px] flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
+          <input value={adjust.amount} onChange={(event) => setAdjust((current) => ({ ...current, amount: event.target.value }))} placeholder="Amount (+ / −)" className="w-full rounded-lg border border-neutral-200 px-3 py-2 sm:w-32" />
+          <input value={adjust.reason} onChange={(event) => setAdjust((current) => ({ ...current, reason: event.target.value }))} placeholder="Reason" className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
           <button
             type="button"
             className={primaryBtn}

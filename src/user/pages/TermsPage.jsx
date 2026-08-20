@@ -19,7 +19,7 @@ export default function TermsPage() {
 
   return (
     <div className="min-h-[70vh] bg-white">
-      <div className="bg-[#f5d000] py-3 text-center text-lg font-bold text-green-700 sm:text-xl">
+      <div className="bg-[#f5d000] px-3 py-3 text-center text-base font-bold text-green-700 sm:text-xl">
         ✨ RPK90 TERMS AND CONDITION ✨
       </div>
       <div className="space-y-4 px-4 py-5 sm:px-6">

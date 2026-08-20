@@ -177,17 +177,17 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
-      <header className="flex items-start justify-between bg-[#e4c25a] px-3 py-3 text-white">
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={onBack} aria-label="Go back" className="p-1">
+    <div className="flex min-h-dvh flex-col bg-white">
+      <header className="flex items-start justify-between gap-2 bg-[#e4c25a] px-3 py-3 text-white">
+        <div className="flex min-w-0 items-center gap-2">
+          <button type="button" onClick={onBack} aria-label="Go back" className="shrink-0 p-1">
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          <h1 className="text-lg font-semibold tracking-wide">{market.name}</h1>
+          <h1 className="truncate text-base font-semibold tracking-wide sm:text-lg">{market.name}</h1>
         </div>
-        <div className="text-right text-[11px] leading-tight">
+        <div className="shrink-0 text-right text-[10px] leading-tight sm:text-[11px]">
           <p>गेम का लास्ट टाइम</p>
           <p>
             {remain.text} | {remain.active ? 'Active' : 'Closed'}
@@ -195,7 +195,7 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
         </div>
       </header>
 
-      <div className="bg-[#f0d56a] py-2 text-center text-sm font-medium text-black">
+      <div className="bg-[#f0d56a] px-2 py-2 text-center text-xs font-medium text-black sm:text-sm">
         मोटी जोड़ी का लास्ट टाइम : {market.lastTime}
       </div>
 
@@ -217,7 +217,7 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
         ))}
       </div>
 
-      <div className="flex items-start justify-between px-5 py-3">
+      <div className="flex items-start justify-between gap-3 px-4 py-3 sm:px-5">
         <div>
           <p className="text-sm text-[#e4c25a]">Points Remaining</p>
           <p className="text-lg font-medium">{pointsRemaining}</p>
@@ -228,9 +228,9 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-5 pb-24">
+      <div className="flex-1 overflow-y-auto px-3 pb-28 sm:px-5">
         {tab === 'Jodi' && (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 min-[400px]:grid-cols-3 sm:grid-cols-4 sm:gap-3">
             {jodiNumbers.map((number) => (
               <NumberCell
                 key={number}
@@ -244,7 +244,7 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
 
         {tab === 'Manual' && (
           <div>
-            <div className="mb-4 grid grid-cols-3 gap-2">
+            <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
               <input
                 value={manualNumber}
                 onChange={(event) => setManualNumber(event.target.value.replace(/\D/g, '').slice(0, 2))}
@@ -258,7 +258,7 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
                 placeholder="Points"
                 className="rounded border border-neutral-300 px-3 py-2"
               />
-              <button type="button" onClick={addManual} className="rounded bg-[#2ea44f] text-white">
+              <button type="button" onClick={addManual} className="col-span-2 rounded bg-[#2ea44f] py-2 text-white sm:col-span-1">
                 Add
               </button>
             </div>
@@ -344,7 +344,7 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
         {message && <p className="mt-4 text-center text-sm text-green-700">{message}</p>}
       </div>
 
-      <div className="fixed right-0 bottom-0 left-0 bg-white px-5 py-3">
+      <div className="fixed inset-x-0 bottom-0 bg-white px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:px-5">
         <button
           type="button"
           onClick={handlePlay}

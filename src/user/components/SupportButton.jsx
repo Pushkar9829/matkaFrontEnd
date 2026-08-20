@@ -6,9 +6,9 @@ export default function SupportButton({ onClick }) {
       type="button"
       onClick={onClick}
       aria-label="Open support form"
-      className="fixed right-3 bottom-6 z-40 transition hover:scale-105 sm:right-5"
+      className="fixed right-2 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 transition hover:scale-105 sm:right-5 sm:bottom-6"
     >
-      <img src={support} alt="Support" className="h-[78px] w-[78px] object-contain drop-shadow-lg" />
+      <img src={support} alt="Support" className="h-14 w-14 object-contain drop-shadow-lg sm:h-[78px] sm:w-[78px]" />
     </button>
   )
 }

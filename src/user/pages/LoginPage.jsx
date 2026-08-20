@@ -44,9 +44,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="gold-page min-h-screen">
+    <div className="gold-page min-h-dvh">
       <div className="bg-white px-3 py-2 text-center">
-        <p className="text-[15px] font-bold text-green-700 sm:text-lg">
+        <p className="px-1 text-[13px] font-bold leading-snug text-green-700 sm:text-lg">
           गली दिसावर सट्टा खेलने वाले एप्लीकेशन डाउनलोड करे! रेट 10 के 950
         </p>
       </div>

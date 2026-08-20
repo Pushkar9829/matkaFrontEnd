@@ -5,7 +5,7 @@ export default function MoneyBag() {
     <img
       src={moneyBag}
       alt=""
-      className="h-[88px] w-[88px] object-contain sm:h-[100px] sm:w-[100px]"
+      className="h-14 w-14 shrink-0 object-contain sm:h-[88px] sm:w-[88px] md:h-[100px] md:w-[100px]"
     />
   )
 }
