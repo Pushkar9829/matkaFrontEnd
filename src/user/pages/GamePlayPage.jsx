@@ -249,11 +249,11 @@ export default function GamePlayPage({ market, pointsRemaining = 0, onBack }) {
       </div>
 
       <div className="gp-points">
-        <div>
+        <div className="gp-points-block">
           <p className="gp-points-label">Points Remaining</p>
           <p className="gp-points-value">{pointsRemaining}</p>
         </div>
-        <div className="gp-points-right">
+        <div className="gp-points-block">
           <p className="gp-points-label">Points Added</p>
           <p className="gp-points-value">{pointsAdded}</p>
         </div>

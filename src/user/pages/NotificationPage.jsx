@@ -9,7 +9,7 @@ export default function NotificationPage() {
   useEffect(() => listenNotifications(user?.uid, setItems), [user?.uid])
 
   return (
-    <div className="min-h-[70vh] bg-[#e8eef4] p-2 sm:p-3">
+    <div className="min-h-[70vh] bg-[#e8eff5] p-2 sm:p-3">
       <div className="space-y-2 sm:space-y-3">
         {items.length === 0 && <p className="py-8 text-center text-sm text-neutral-500">No notifications.</p>}
         {items.map((item) => (

@@ -33,7 +33,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-[70vh] bg-[#e4c25a]">
+    <div className="min-h-[70vh] bg-brand">
       <div className="relative pt-10">
         <img src={logo} alt="RPK 96" className="absolute top-3 left-1/2 z-10 h-14 w-14 -translate-x-1/2 object-contain drop-shadow-xl sm:h-24 sm:w-24" />
         <form onSubmit={handleSubmit} className="mt-10 rounded-t-2xl bg-white px-3 pt-12 pb-6 sm:mt-12 sm:px-6 sm:pt-16 sm:pb-8">
@@ -58,7 +58,7 @@ export default function ProfilePage() {
             <input type="email" name="email" value={form.email} onChange={handleChange} className="w-full border-0 border-b border-neutral-300 bg-transparent py-1 text-neutral-800 outline-none focus:border-amber-600" />
           </label>
           {message && <p className="mb-3 text-sm text-green-700">{message}</p>}
-          <button type="submit" className="w-full rounded-md bg-[#e4c25a] py-2.5 text-sm text-white shadow-sm transition hover:brightness-105 sm:py-3 sm:text-base">
+          <button type="submit" className="w-full rounded-md bg-brand py-2.5 text-sm text-white shadow-sm transition hover:brightness-105 sm:py-3 sm:text-base">
             Submit
           </button>
         </form>

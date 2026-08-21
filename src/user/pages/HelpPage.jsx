@@ -13,7 +13,7 @@ export default function HelpPage() {
       ]
 
   return (
-    <div className="min-h-[70vh] bg-[#eef3f8] p-3 sm:p-4">
+    <div className="min-h-[70vh] bg-page p-3 sm:p-4">
       <h2 className="mb-3 text-center text-base font-semibold text-neutral-800 sm:mb-4 sm:text-xl">Help</h2>
       <div className="space-y-2 sm:space-y-3">
         {items.map((item) => (

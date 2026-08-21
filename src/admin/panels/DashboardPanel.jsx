@@ -21,7 +21,7 @@ export default function DashboardPanel({ onOpenTab, userById }) {
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {cards.map((card) => (
           <button key={card.key} type="button" onClick={() => onOpenTab(card.tab)} className="text-left">
-            <Card className="p-4 hover:ring-[#d7b54a]">
+            <Card className="p-4 hover:ring-brand">
               <p className="text-xs uppercase tracking-wide text-neutral-500">{card.label}</p>
               <p className="mt-1 text-2xl font-semibold">{stats[card.key] || 0}</p>
             </Card>

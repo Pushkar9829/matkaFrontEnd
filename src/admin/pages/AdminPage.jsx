@@ -115,7 +115,7 @@ function SearchBox({ value, onChange, placeholder }) {
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
-      className="w-full max-w-xs rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none ring-[#d7b54a] focus:ring-2"
+      className="w-full max-w-xs rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none ring-brand focus:ring-2"
     />
   )
 }
@@ -341,7 +341,7 @@ export default function AdminPage({ mobile, onLogout }) {
   }
 
   return (
-    <div className="h-dvh overflow-hidden bg-[#eef3f8]">
+    <div className="h-dvh overflow-hidden bg-page">
       {sidebarOpen && (
         <button type="button" className="fixed inset-0 z-30 bg-black/40 md:hidden" aria-label="Close menu" onClick={() => setSidebarOpen(false)} />
       )}
@@ -349,7 +349,7 @@ export default function AdminPage({ mobile, onLogout }) {
       <aside className={`fixed inset-y-0 left-0 z-40 flex w-60 flex-col bg-[#2b2110] text-white transition-transform duration-200 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="shrink-0 border-b border-white/10 px-5 py-4">
           <p className="text-lg font-semibold tracking-wide">RPK 90</p>
-          <p className="text-xs text-[#e4c25a]">Admin panel</p>
+          <p className="text-xs text-brand">Admin panel</p>
         </div>
         <nav className="min-h-0 flex-1 overflow-y-auto py-2">
           {tabs.map((item) => (
@@ -357,12 +357,12 @@ export default function AdminPage({ mobile, onLogout }) {
               key={item.id}
               type="button"
               onClick={() => openTab(item.id)}
-              className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm ${tab === item.id ? 'bg-[#d7b54a] font-medium text-white' : 'text-white/80 hover:bg-white/10'}`}
+              className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm ${tab === item.id ? 'bg-brand font-medium text-white' : 'text-white/80 hover:bg-white/10'}`}
             >
               <NavIcon id={item.id} />
               <span className="flex-1">{item.label}</span>
               {badges[item.id] > 0 && (
-                <span className={`rounded-full px-2 py-0.5 text-[11px] ${tab === item.id ? 'bg-white text-[#8a6b12]' : 'bg-[#d7b54a] text-white'}`}>
+                <span className={`rounded-full px-2 py-0.5 text-[11px] ${tab === item.id ? 'bg-white text-[#8a6b12]' : 'bg-brand text-white'}`}>
                   {badges[item.id]}
                 </span>
               )}
@@ -371,14 +371,14 @@ export default function AdminPage({ mobile, onLogout }) {
         </nav>
         <div className="shrink-0 border-t border-white/10 px-5 py-4 text-sm">
           <p className="truncate text-white/70">{mobile}</p>
-          <button type="button" onClick={onLogout} className="mt-3 w-full rounded-md bg-[#d7b54a] py-2 font-medium text-white hover:bg-[#c9a63d]">
+          <button type="button" onClick={onLogout} className="mt-3 w-full rounded-md bg-brand py-2 font-medium text-white hover:bg-[#ad7d2c]">
             Logout
           </button>
         </div>
       </aside>
 
       <div className="flex h-full flex-col md:pl-60">
-        <header className="flex shrink-0 items-center justify-between bg-[#d7b54a] px-4 py-3 text-white shadow-sm md:px-6">
+        <header className="flex shrink-0 items-center justify-between bg-brand px-4 py-3 text-white shadow-sm md:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <button type="button" className="rounded-md bg-black/20 px-3 py-1.5 text-sm md:hidden" onClick={() => setSidebarOpen(true)}>
               Menu
@@ -429,7 +429,7 @@ export default function AdminPage({ mobile, onLogout }) {
                   <input value={adjust.reason} onChange={(event) => setAdjust((current) => ({ ...current, reason: event.target.value }))} placeholder="Reason" className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
                   <button
                     type="button"
-                    className="rounded-lg bg-[#d7b54a] px-4 py-2 font-medium text-white hover:bg-[#c9a63d]"
+                    className="rounded-lg bg-brand px-4 py-2 font-medium text-white hover:bg-[#ad7d2c]"
                     onClick={() => adjustBalance({ userId: adjust.userId, amount: Number(adjust.amount), reason: adjust.reason }).then(() => { ok('Balance updated'); setAdjust({ userId: '', amount: '', reason: '' }) }).catch(flash)}
                   >
                     Adjust
@@ -439,7 +439,7 @@ export default function AdminPage({ mobile, onLogout }) {
               <Card className="overflow-x-auto">
                 <table className="w-full min-w-[720px] text-left">
                   <thead>
-                    <tr className="sticky top-0 bg-[#e4c25a] text-white">
+                    <tr className="sticky top-0 bg-brand text-white">
                       <th className="p-3 font-medium">Number</th>
                       <th className="font-medium">PIN</th>
                       <th className="font-medium">Balance</th>
@@ -519,7 +519,7 @@ export default function AdminPage({ mobile, onLogout }) {
                     <input type="number" value={marketForm.order} onChange={(event) => setMarketForm((current) => ({ ...current, order: event.target.value }))} className="w-full rounded-lg border border-neutral-200 px-3 py-2" />
                   </label>
                   <div className="flex items-end gap-2">
-                    <button type="button" className="rounded-lg bg-[#2ea44f] px-4 py-2 font-medium text-white hover:bg-[#279346]" onClick={saveMarket}>
+                    <button type="button" className="rounded-lg bg-play px-4 py-2 font-medium text-white hover:bg-[#3d8b40]" onClick={saveMarket}>
                       Save market
                     </button>
                     <button type="button" className="rounded-lg bg-neutral-200 px-4 py-2 hover:bg-neutral-300" onClick={() => setMarketForm(emptyMarket)}>
@@ -587,7 +587,7 @@ export default function AdminPage({ mobile, onLogout }) {
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
-                    className="rounded-lg bg-[#2ea44f] px-4 py-2 font-medium text-white hover:bg-[#279346]"
+                    className="rounded-lg bg-play px-4 py-2 font-medium text-white hover:bg-[#3d8b40]"
                     onClick={() => {
                       if (!resultForm.marketId || !resultForm.value) return flash(new Error('Choose a market and enter a result.'))
                       if (!window.confirm('Publish this result and settle pending bets?')) return
@@ -639,7 +639,7 @@ export default function AdminPage({ mobile, onLogout }) {
               <Card className="overflow-x-auto">
                 <table className="w-full min-w-[860px] text-left">
                   <thead>
-                    <tr className="sticky top-0 bg-[#e4c25a] text-white">
+                    <tr className="sticky top-0 bg-brand text-white">
                       <th className="p-3 font-medium">User</th>
                       <th className="font-medium">Market</th>
                       <th className="font-medium">Type</th>
@@ -738,7 +738,7 @@ export default function AdminPage({ mobile, onLogout }) {
                     key={thread.id}
                     type="button"
                     onClick={() => setActiveThread(thread)}
-                    className={`mb-1 block w-full rounded-lg px-3 py-2 text-left ${activeThread?.id === thread.id ? 'bg-amber-50 ring-1 ring-[#d7b54a]' : 'hover:bg-neutral-50'}`}
+                    className={`mb-1 block w-full rounded-lg px-3 py-2 text-left ${activeThread?.id === thread.id ? 'bg-amber-50 ring-1 ring-brand' : 'hover:bg-neutral-50'}`}
                   >
                     <span className="font-medium">{userById[thread.userId]?.mobile || thread.userId.slice(0, 8)}</span>
                     <span className="ml-2 text-xs text-neutral-400">chat</span>
@@ -755,7 +755,7 @@ export default function AdminPage({ mobile, onLogout }) {
                     </p>
                     <div className="min-h-0 flex-1 space-y-2 overflow-y-auto rounded-lg bg-neutral-50 p-3">
                       {chatMessages.map((message) => (
-                        <p key={message.id} className={`max-w-[85%] rounded-lg px-3 py-2 ${message.from === 'admin' ? 'ml-auto bg-[#d7b54a] text-white' : 'bg-white ring-1 ring-neutral-200'}`}>
+                        <p key={message.id} className={`max-w-[85%] rounded-lg px-3 py-2 ${message.from === 'admin' ? 'ml-auto bg-brand text-white' : 'bg-white ring-1 ring-neutral-200'}`}>
                           {message.text}
                         </p>
                       ))}
@@ -772,7 +772,7 @@ export default function AdminPage({ mobile, onLogout }) {
                       className="mt-3 flex shrink-0 gap-2"
                     >
                       <input value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Type a reply" className="flex-1 rounded-lg border border-neutral-200 px-3 py-2" />
-                      <button type="submit" className="rounded-lg bg-[#2ea44f] px-4 py-2 font-medium text-white hover:bg-[#279346]">Send</button>
+                      <button type="submit" className="rounded-lg bg-play px-4 py-2 font-medium text-white hover:bg-[#3d8b40]">Send</button>
                     </form>
                   </>
                 ) : (
@@ -791,7 +791,7 @@ export default function AdminPage({ mobile, onLogout }) {
               <p className="text-xs text-neutral-500">{alertText.split('\n').filter(Boolean).length} line(s) will be sent to every user.</p>
               <button
                 type="button"
-                className="rounded-lg bg-[#d7b54a] px-4 py-2 font-medium text-white hover:bg-[#c9a63d]"
+                className="rounded-lg bg-brand px-4 py-2 font-medium text-white hover:bg-[#ad7d2c]"
                 onClick={() => {
                   const lines = alertText.split('\n').filter(Boolean)
                   if (!lines.length) return flash(new Error('Write at least one line.'))

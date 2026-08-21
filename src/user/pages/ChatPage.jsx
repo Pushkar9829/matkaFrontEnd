@@ -1,29 +1,93 @@
 import { useEffect, useRef, useState } from 'react'
 import logo from '../../assets/logo.png'
+import micIcon from '../../assets/mic.svg'
 import { useAuth } from '../../api/AuthContext.jsx'
-import { listenChatMessages, listenContent, sendChatMessage, ensureChatThread } from '../../api/api'
+import { listenChatMessages, sendChatMessage, ensureChatThread } from '../../api/api'
+
+const DEPOSIT_NOTICE =
+  'कृपया केवल दिए गए अकाउंट में ही पेमेंट करें। यदि कोई व्यक्ति अपनी तरफ से किसी पुराने अकाउंट में पेमेंट करता है, तो उसका पेमेंट Add नहीं होगा और इसके लिए वह स्वयं जिम्मेदार होगा। कृपया 200 रुपये से कम जमा न करें।'
+
+const WITHDRAW_NOTICE =
+  'अगर आपको पैसे निकालने में कोई भी समस्या आ रही है तो आप अपनी समस्या को टाइप करके या वौइस् रिकॉर्ड करके भेज सकते है.'
 
 function formatTime(value) {
   const date = value?.toDate ? value.toDate() : value ? new Date(value) : new Date()
   if (Number.isNaN(date.getTime())) return ''
-  let hours = date.getHours()
-  const ampm = hours >= 12 ? 'PM' : 'AM'
-  hours = hours % 12 || 12
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  return `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
+function isImageUrl(url) {
+  return /\.(png|jpe?g|gif|webp|bmp)(\?|$)/i.test(url || '')
+}
+
+function isAudioUrl(url) {
+  return /\.(mp3|wav|ogg|m4a|webm)(\?|$)/i.test(url || '')
+}
+
+function isVideoUrl(url) {
+  return /\.(mp4|webm|mov|m4v)(\?|$)/i.test(url || '')
+}
+
+function MessageBody({ text }) {
+  const value = String(text || '')
+  const urls = value.match(/https?:\/\/\S+/g) || []
+  const fileUrl = urls.find((url) => isImageUrl(url) || isAudioUrl(url) || isVideoUrl(url) || url.includes('/uploads/'))
+  const plain = value
+    .replace(/📎 File attached\s*/g, '')
+    .replace(fileUrl || '', '')
+    .trim()
+
+  if (fileUrl && isImageUrl(fileUrl)) {
+    return (
+      <>
+        {plain ? <p style={{ wordBreak: 'break-word' }}>{plain}</p> : null}
+        <img src={fileUrl} alt="Attachment" className="chatimagenew" style={{ maxWidth: '220px', width: '100%' }} />
+      </>
+    )
+  }
+  if (fileUrl && isVideoUrl(fileUrl)) {
+    return (
+      <video controls width="100%" height="150">
+        <source src={fileUrl} />
+      </video>
+    )
+  }
+  if (fileUrl && isAudioUrl(fileUrl)) {
+    return (
+      <audio controls className="audioclass">
+        <source src={fileUrl} />
+      </audio>
+    )
+  }
+  if (fileUrl) {
+    return (
+      <a href={fileUrl} target="_blank" rel="noreferrer" className="chat-file-link">
+        {plain || 'Open file'}
+      </a>
+    )
+  }
+  if (value.startsWith('http')) {
+    return (
+      <a href={value} target="_blank" rel="noreferrer">
+        {value}
+      </a>
+    )
+  }
+  return <p style={{ wordBreak: 'break-word' }}>{value}</p>
 }
 
 export default function ChatPage({ kind = 'deposit', onBack }) {
   const isDeposit = kind !== 'withdraw'
   const { user } = useAuth()
   const [text, setText] = useState('')
+  const [selectedFile, setSelectedFile] = useState(null)
   const [messages, setMessages] = useState([])
-  const [content, setContent] = useState({})
+  const [sending, setSending] = useState(false)
   const endRef = useRef(null)
   const fileRef = useRef(null)
   const type = 'chat'
+  const canSend = Boolean(text.trim() || selectedFile)
 
-  useEffect(() => listenContent(setContent), [])
   useEffect(() => {
     if (!user?.uid) return undefined
     ensureChatThread(user.uid, type).catch(() => {})
@@ -34,91 +98,139 @@ export default function ChatPage({ kind = 'deposit', onBack }) {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  async function handleSubmit(event) {
-    event.preventDefault()
+  async function handleSend() {
     const value = text.trim()
-    if (!value) return
+    if (!value && !selectedFile) return
+    if (sending) return
+    setSending(true)
+    const payloadText = value || (selectedFile ? `📎 ${selectedFile.name}` : '')
+    const file = selectedFile
     setText('')
+    setSelectedFile(null)
     try {
-      await sendChatMessage({ uid: user.uid, type, text: value })
+      await sendChatMessage({ uid: user.uid, type, text: payloadText, file })
     } catch (error) {
       setText(value)
+      setSelectedFile(file)
       window.alert(error.message || 'Message failed.')
+    } finally {
+      setSending(false)
     }
   }
 
-  const notice = isDeposit
-    ? (content.chatNotice || content.depositNotice || 'कृपया केवल दिए गए अकाउंट में ही पेमेंट करें।')
-    : (content.withdrawNotice || content.chatNotice || 'कृपया विड्रॉ के लिए सही बैंक डिटेल भेजें।')
+  const notice = isDeposit ? DEPOSIT_NOTICE : WITHDRAW_NOTICE
+
+  const inputValue = selectedFile ? `${text}${text ? ' - ' : ''}${selectedFile.name}` : text
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[#e8eef4]">
-      <header className="flex items-center justify-between gap-2 bg-[#e4c25a] px-2 py-2 text-white sm:px-3 sm:py-3">
-        <button type="button" onClick={onBack} aria-label="Go back" className="shrink-0 p-1">
-          <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M15 6l-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <h1 className="min-w-0 truncate text-sm font-medium sm:text-lg">{isDeposit ? 'Deposit Chat' : 'Withdraw Chat'}</h1>
-        <img src={logo} alt="RPK 90" className="h-8 w-8 shrink-0 object-contain sm:h-10 sm:w-10" />
-      </header>
-
-      <div className="bg-red-600 px-2 py-1.5 text-center text-[10px] leading-snug text-white sm:px-3 sm:py-2 sm:text-xs">
-        {notice}
-      </div>
-
-      {isDeposit && (content.depositQrUrl || content.depositUpi) && (
-        <div className="flex flex-col items-center gap-3 bg-white px-4 py-3 sm:flex-row sm:items-center">
-          {content.depositQrUrl && (
-            <img src={content.depositQrUrl} alt="Pay QR" className="h-20 w-20 object-contain" />
-          )}
-          <div className="min-w-0 text-center sm:text-left">
-            <p className="text-xs text-neutral-500">Pay UPI</p>
-            <p className="break-all font-medium">{content.depositUpi}</p>
+    <section className="chat chat-page" id="chat">
+      <div className="chat-fixed-header">
+        <div className="headerchat">
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="headericonarrow">
+              <button type="button" className="arrowlink" onClick={onBack} aria-label="Go back">
+                <i className="bi bi-arrow-left-short" />
+              </button>
+            </div>
+            <div className="chatname">
+              <h2>{isDeposit ? 'Deposit Chat' : 'Withdrawal Chat'}</h2>
+            </div>
+            <div className="logoheader">
+              <img src={logo} className="img-fluid" alt="Logo" />
+            </div>
           </div>
         </div>
-      )}
-
-      <div className="flex-1 space-y-3 overflow-y-auto px-3 py-4">
-        {messages.map((message) => {
-          const mine = message.from === 'user'
-          return (
-            <div key={message.id} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[75%] ${mine ? 'text-right' : 'text-left'}`}>
-                <div className={`inline-block rounded-2xl px-3 py-1.5 text-[13px] leading-relaxed whitespace-pre-wrap sm:px-4 sm:py-2 sm:text-sm ${mine ? 'rounded-br-sm bg-[#3da9f5] text-white' : 'rounded-bl-sm bg-white text-neutral-800'}`}>
-                  {message.text}
-                </div>
-                <p className="mt-1 text-[11px] text-neutral-500">{formatTime(message.createdAt)}</p>
-              </div>
-            </div>
-          )
-        })}
-        <div ref={endRef} />
+        <p className="lineadd">{notice}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 bg-[#e4c25a] px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
-        <input type="text" value={text} onChange={(event) => setText(event.target.value)} placeholder="Type Message" className="min-w-0 flex-1 rounded-md border-0 bg-white px-4 py-2.5 text-neutral-800 outline-none placeholder:text-neutral-500" />
-        <input
-          ref={fileRef}
-          type="file"
-          className="hidden"
-          onChange={(event) => {
-            const file = event.target.files?.[0]
-            if (file) sendChatMessage({ uid: user.uid, type, text: '📎 File attached', file })
-            event.target.value = ''
-          }}
-        />
-        <button type="button" onClick={() => fileRef.current?.click()} aria-label="Attach file" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7ec8f5] text-white">
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M8 12l8-8a4 4 0 115.7 5.7l-9.2 9.1a3 3 0 01-4.2-4.2l8.5-8.5" strokeLinecap="round" />
-          </svg>
-        </button>
-        <button type="submit" aria-label="Send" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1f8a3b] text-white">
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-            <path d="M3 11l18-8-8 18-2-7-8-3z" />
-          </svg>
-        </button>
-      </form>
-    </div>
+      <div className="container-fluid chat-body-wrap">
+        <div className="chatdesignuser1">
+          <div className="chat-message-group writer-user">
+            <div className="chat-messages">
+              {messages.map((message) => {
+                const mine = message.from === 'user'
+                return (
+                  <div
+                    key={message.id}
+                    className={`message_container${mine ? '' : ' messageadmin'}`}
+                  >
+                    <div>
+                      <div className={`message${mine ? '' : ' messageleft'}`}>
+                        <MessageBody text={message.text} />
+                      </div>
+                      <p className={`datechat${mine ? '' : ' datechat-left'}`}>
+                        {formatTime(message.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
+              <div ref={endRef} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="d-flex chatdesign">
+        <div className="inputchat">
+          <textarea
+            className="form-control"
+            placeholder="Type Message"
+            rows={1}
+            value={inputValue}
+            onChange={(event) => {
+              const next = event.target.value
+              if (selectedFile && next.endsWith(selectedFile.name)) {
+                const cut = next.slice(0, Math.max(0, next.length - selectedFile.name.length)).replace(/\s*-\s*$/, '')
+                setText(cut)
+                return
+              }
+              if (selectedFile) setSelectedFile(null)
+              setText(next)
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault()
+                handleSend()
+              }
+            }}
+          />
+        </div>
+
+        <div className="buttonsend bg-info">
+          <label className="chat-attach-label" htmlFor="chatFileInput">
+            <i className="bi bi-paperclip" />
+            <input
+              id="chatFileInput"
+              ref={fileRef}
+              type="file"
+              onChange={(event) => {
+                const file = event.target.files?.[0] || null
+                setSelectedFile(file)
+                event.target.value = ''
+              }}
+            />
+          </label>
+        </div>
+
+        <div className="buttonsend">
+          {canSend ? (
+            <button
+              type="button"
+              className="sendmessage chat-icon-btn"
+              disabled={sending}
+              onClick={handleSend}
+              aria-label="Send"
+            >
+              <i className="bi bi-send message_send" />
+            </button>
+          ) : (
+            <button type="button" className="sendmessageMic chat-icon-btn" aria-label="Microphone">
+              <img src={micIcon} alt="" className="chat-mic-icon" />
+            </button>
+          )}
+        </div>
+      </div>
+    </section>
   )
 }

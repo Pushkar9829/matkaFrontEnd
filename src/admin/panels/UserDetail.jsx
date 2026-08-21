@@ -91,7 +91,7 @@ export default function UserDetail({ user, onBack, onError, onOk }) {
         <Card className="overflow-x-auto">
           <table className="w-full min-w-[720px] text-left">
             <thead>
-              <tr className="bg-[#e4c25a] text-white">
+              <tr className="bg-brand text-white">
                 <th className="p-3 font-medium">Market</th>
                 <th className="font-medium">Type</th>
                 <th className="font-medium">Number</th>
@@ -145,7 +145,7 @@ export default function UserDetail({ user, onBack, onError, onOk }) {
         <Card className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-left">
             <thead>
-              <tr className="bg-[#e4c25a] text-white">
+              <tr className="bg-brand text-white">
                 <th className="p-3 font-medium">Mode</th>
                 <th className="font-medium">Points</th>
                 <th className="font-medium">Closing</th>
@@ -170,7 +170,7 @@ export default function UserDetail({ user, onBack, onError, onOk }) {
       {view === 'Chat' && (
         <Card className="max-h-[480px] space-y-2 overflow-y-auto p-4">
           {detail.messages.map((message) => (
-            <p key={message.id} className={`max-w-[85%] rounded-lg px-3 py-2 ${message.from === 'admin' ? 'ml-auto bg-[#d7b54a] text-white' : 'bg-neutral-100'}`}>
+            <p key={message.id} className={`max-w-[85%] rounded-lg px-3 py-2 ${message.from === 'admin' ? 'ml-auto bg-brand text-white' : 'bg-neutral-100'}`}>
               {message.text}
             </p>
           ))}

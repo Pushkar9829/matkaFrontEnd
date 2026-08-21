@@ -41,7 +41,7 @@ export function SearchBox({ value, onChange, placeholder }) {
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
-      className="w-full max-w-xs rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none ring-[#d7b54a] focus:ring-2"
+      className="w-full max-w-xs rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm outline-none ring-brand focus:ring-2"
     />
   )
 }
@@ -72,5 +72,5 @@ export function Field({ label, children }) {
 }
 
 export const inputClass = 'w-full rounded-lg border border-neutral-200 px-3 py-2'
-export const primaryBtn = 'rounded-lg bg-[#d7b54a] px-4 py-2 font-medium text-white hover:bg-[#c9a63d]'
-export const greenBtn = 'rounded-lg bg-[#2ea44f] px-4 py-2 font-medium text-white hover:bg-[#279346]'
+export const primaryBtn = 'rounded-lg bg-brand px-4 py-2 font-medium text-white hover:bg-[#ad7d2c]'
+export const greenBtn = 'rounded-lg bg-play px-4 py-2 font-medium text-white hover:bg-[#3d8b40]'
